@@ -2,61 +2,67 @@ import random
 import numpy as np # Import numpy to perform array operations.
 import pandas as pd # Import pandas for working with data sets.
 
-earned_money = 1 # Starting money, and it will increase while the user is winning.
+class GameOfLuck:
+    def __init__(self, initial_amount):
+        self.initial_amount = initial_amount
+        self.amount = initial_amount
 
-# Display a welcome message.
-print("************************** Welcome to 50% luck game **************************")
-money_entered = True # Indicates whether enought money has been entered or not.
-
-# The main part of the game
-def game_inside():
-    # Creates a list which contains 100 "Missed" or "Won" messages.
-    random_list = [random.choice(["Missed", "Won"]) for _ in range(100)]
-
-    # Turnes random_list into a (10, 10) 2D list to create a dataframe  
-    random_2d_list = np.reshape(random_list, (10, 10))
-
-    # Creates data frame by using random_2d_list
-    df = pd.DataFrame(random_2d_list, columns = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"])
-
-    # Give names to the indexes of the data frame
-    df.index = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"] #type: ignore
-    global earned_money 
-    if win_or_not(df) : # Defines if user won or not 
-        earned_money += 1
+    # The main part of the game
+    def game_inside(self):
+        random_list = [random.choice(["Lose", "Win"]) for _ in range(100)] # Creates a list which contains 100 "Lose" or "Win" messages.
+        random_2d_list = np.reshape(random_list, (10, 10)) # Turnes random_list into a (10, 10) 2D list to create a dataframe  
+        random_df = pd.DataFrame(random_2d_list, columns = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]) # Creates data frame by using random_2d_list
+        random_df.index = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"] #type: ignore # Give names to the indexes of the data frame
         
-        # Asks if user will play again or not
-        play_again = input(f"You won the game, would you play again with winner pride for {earned_money}$ \nor take your {earned_money - 1}$ and leave the game ? (yes/no): ").lower()4
+        while True:
+            row, col = input("Choose a row between 1 to 10:"), input("Choose a column between 1 to 10:") # Get row and col
+            if col.isdigit() and row.isdigit() and 1 <= int(col) <= 10 and 1 <= int(row) <= 10: # Check for miss values
+                break
+            print("You have to enter a number between 1 to 10 !!!")
+        
+        if self.win_or_not(random_df, row, col) : # Defines if user won or not 
+            self.amount *= 2
+            self.play_again()
+        else:
+            # User looses the game so, reduce the amount
+            self.amount /= 2
+            self.play_again()
+            
+    # Defines if user is won to the game or not
+    def win_or_not(self, df, row, col):
+        print(f"From this unique table: \n{df}")
+        print(f"You {df.loc[row, col]} the price... \nChoices ({row}, {col}) ")
+
+        # If user wins the game function returns True otherwise False
+        if df.loc[row, col] == "Win":
+            return True
+        else:
+            return False
+        
+    def play_again(self):
+        print('Initial amount:', self.initial_amount)
+        print('Current amount:', self.amount)
+        if self.amount < 1:
+            print("Game over!!!\n(Current amount is less than 1$): ")
+            return
+
+        # Asks user of he/she will play again
+        play_again = input(f"Play again for {self.amount * 2}$? (yes/no): ").lower()
         if play_again == 'yes':
-            game_inside()
+            self.game_inside()
         else:
             print("Your money preparing, see you soon :)")
-    else:
-        # User looses the game so, reset the money
-        earned_money = 0
-        # Asks if user will play again or not
-        play_again = input("You lost the game, would you play from zero till the hero? (yes/no): ").lower()
-        if play_again == 'yes':
-            game_inside()
-        else:
-            print("Alright then, see you soon :)")
-# Gets the informatinon from user and defines he or she is won to the game or not
-def win_or_not(df):
-    col, row = input("Choose a column from 1 to 10: "), input("Choose a row from 1 to 10: ")
+            return
 
-    # Checks for if user entered numbers in right way or not
-    if not col.isdigit() or not row.isdigit() or int(col) < 1 or int(col) > 10 or int(row) < 1 or int(row) > 10:
-        print("You have to enter a number between 1 to 10 !!!")
-        raise ValueError
-    print(f"You've choosed {col}. col and {row}. row and you've {df.loc[col, row]} the price...")
-    print(f"From this unique table: \n{df}")
+    @staticmethod
+    def main():
+        print("***** Welcome to Game of Luck *****")
+        initial_amount = int(input('Enter initial amount (No coins):')) # Provided by money taking device
+        if initial_amount < 1:
+            initial_amount += int(input('At least 1$ to play:'))
+        game = GameOfLuck(initial_amount)
+        game.game_inside()
+        
 
-    # If user wins the game function returns True otherwise False
-    if df.loc[col, row] == "Won":
-        return True
-    else:
-        return False
-
-# If enought money is entered the game starts.
-if(money_entered):
-    game_inside()
+if __name__ == '__main__':
+    GameOfLuck.main()
