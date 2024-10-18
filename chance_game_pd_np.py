@@ -60,7 +60,7 @@ class GameOfLuck:
     def main(initial_amount = 0):
         if not initial_amount:
             print("***** Welcome to Game of Luck *****")
-            initial_amount = int(input('Enter initial amount (No coins):')) # Provided by money taking device
+            initial_amount = int(input('Enter initial amount (No coins):')) # Provided by cash acceptor
         game = GameOfLuck(initial_amount)
         game.game_inside()
         
