@@ -1,44 +1,56 @@
-# 50% Luck Game
+# Game of Luck
 
-Welcome to the "50% Luck Game" project! This simple Python program is designed as a game of chance to test your knowledge of the Pandas and NumPy libraries. The game involves making random choices and determining your winnings based on those choices.
+The "Game of Luck" is a Python-based simulation designed to enhance programming skills in data manipulation and numerical operations using Pandas and NumPy. The game begins with an initial amount of money, and players can take part in simulated game events that modify this amount based on random outcomes.
 
-## How to Play
+## Features
 
-1. Make sure you have Python installed on your system.
+- **Game Initialization:** The game starts with a specified initial amount of money.
+- **Game Simulation:** A 10x10 grid is generated, where each cell contains a random outcome that affects the player's balance.
+- **Outcome Modifiers:** Outcomes include multipliers (e.g., `x3`, `x2`) and divisors (e.g., `/2`, `/3`, `/4`), as well as neutral results (`=1`).
+- **Array and DataFrame Operations:** Uses NumPy for array manipulation and Pandas for data handling.
 
-2. Run the "50_percent_luck_game.py" file to start the game.
+## Installation
 
-3. You will start with an initial amount of $1, which will increase as you win.
+1. **Prerequisites:**
+   - Python 3.x
+   - NumPy library
+   - Pandas library
 
-4. The game presents a 10x10 grid where each cell contains either "Missed" or "Won" at random.
+2. **Installation Steps:**
+   - Clone this repository or download the code file.
+   - Install the required dependencies using:
+     ```bash
+     pip install numpy pandas
+     ```
 
-5. You'll be prompted to choose a column (1 to 10) and a row (1 to 10) from the grid.
+## Usage
 
-6. Depending on your selection, the program will tell you whether you've "Won" or "Missed" a prize.
+1. **Initialize the Game:**
+   - To start the game, create an instance of the `GameOfLuck` class with an initial amount.
+     ```python
+     from chance_game_pd_np import GameOfLuck
+     
+     game = GameOfLuck(initial_amount=1000)
+     ```
 
-7. If you win, your earnings will increase by $1, and you can choose to play again with your new winnings or leave the game with your current earnings.
-
-8. If you lose, your earnings will reset to $0, and you can choose to start over or exit the game.
+2. **Run the Game:**
+   - Call the game functions as required to simulate the game events.
+     ```python
+     game.game_inside()  # Generates a grid with random outcomes
+     ```
 
 ## Project Structure
 
-- `50_percent_luck_game.py`: The main Python script that runs the game.
-- `README.md`: This README file, providing instructions and information about the project.
+- **`chance_game_pd_np.py`**: The main game file containing the implementation of the Game of Luck.
 
-## Dependencies
+## Contributing
 
-This project uses the following Python libraries:
+Contributions are welcome! Feel free to submit a pull request or open an issue if you have any suggestions or find any bugs.
 
-- `random`: To generate random outcomes.
-- `numpy` (NumPy): For array operations and reshaping.
-- `pandas` (Pandas): For working with data sets and creating a grid.
+## License
 
-## Disclaimer
+This project is licensed under the MIT License.
 
-This project is created solely for educational purposes and as a personal project to test knowledge of Pandas and NumPy. It is not intended to be a fully-fledged game but rather a coding exercise.
+## Acknowledgments
 
-Feel free to explore, modify, or enhance this project as you see fit. Have fun testing your luck and improving your Python skills!
-
-If you have any questions or feedback, please don't hesitate to reach out.
-
-Enjoy the game!
+- This project was created to enhance skills in working with Pandas and NumPy.
